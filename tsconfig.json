@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "outDir": "dist",
+    "module": "ES2015",
+    "target": "ES2018",
+    "lib": ["dom", "esnext"],
+    "sourceMap": true,
+    "allowJs": false,
+    "jsx": "react",
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "node",
+    "strictNullChecks": true,
+    "baseUrl": "."
+  },
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}
