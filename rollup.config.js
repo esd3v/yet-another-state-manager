@@ -10,6 +10,8 @@ module.exports = {
   external: ['react'],
   plugins: [
     terser(),
-    typescript(),
+    typescript({
+      tsconfig: "tsconfig.build.json",
+    }),
   ],
 };
