@@ -1,16 +1,27 @@
 import React, {createContext, useState, Context} from 'react';
-import {Action, ActionWithPayload, State} from './typings';
 import {getMergedState} from './getMergedState';
+import {mapObject} from './misc';
+import {
+  State,
+  MappedContextActions,
+  Action,
+  ActionWithPayload,
+  ContextActions,
+  ActionWithDynamicPayload,
+} from 'typings';
 
 interface ContextValue {
   state: State;
+  actions?: MappedContextActions<ContextActions>;
   dispatch: (action: Action | ActionWithPayload) => void;
 }
 
 export const StoreContext: Context<ContextValue> = createContext<ContextValue>(undefined as any);
 
-export function Provider<S extends State>({defaultState, children}: {
+export function Provider<S extends State, A extends ContextActions>
+({defaultState, actions, children}: {
   defaultState: S;
+  actions?: A,
   children: React.ReactNode;
 }) {
   const [state, setState] = useState(defaultState);
@@ -25,11 +36,29 @@ export function Provider<S extends State>({defaultState, children}: {
     setState(mergedState);
   };
 
+  const mapActions = <T extends ContextActions>
+    (actions: T): MappedContextActions<T> => {
+      return mapObject(actions, item => {
+        if (item.hasOwnProperty('changer') || item instanceof Function) {
+          return (payload?: any) => dispatch(
+            (item instanceof Function) ? // with dynamic payload
+            (item as ActionWithDynamicPayload)(payload) :
+            (item as Action) // with fixed payload
+          );
+        } else {
+          return mapActions(item as ContextActions);
+        }
+      });
+    };
+
+  const value = actions ? {
+    state,
+    actions: mapActions(actions),
+    dispatch,
+  } : {state, dispatch};
+
   return (
-    <StoreContext.Provider value={{
-      state,
-      dispatch,
-    }}>
+    <StoreContext.Provider value={value}>
       {children}
     </StoreContext.Provider>
   );
