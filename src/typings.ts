@@ -28,3 +28,14 @@ export interface ActionWithPayload {
 
 export type ActionWithDynamicPayload = (payload: any) =>
   ActionWithPayload;
+
+export type ContextActions = {
+  [key: string]: ActionWithDynamicPayload | Action | ActionWithPayload | ContextActions;
+};
+
+export type MappedContextActions<T> = {
+  [key in keyof T]:
+    T[key] extends Action | ActionWithPayload ? () => T[key] :
+      T[key] extends ActionWithDynamicPayload ? T[key] :
+        MappedContextActions<T[key]>;
+};
