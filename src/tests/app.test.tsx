@@ -77,8 +77,10 @@ const getNewState = async (label: string): Promise<AppState> => {
 describe('Misc', () => {
   test('Merged state equals to default state', () => {
     const changes = {
-      subgroup1: {
-        ...defaultState.group1.subgroup1,
+      subgroup: {
+        subsubgroup: {
+          value: 2,
+        },
       },
     };
 
@@ -95,33 +97,33 @@ describe('Misc', () => {
 describe('Change state by external action', () => {
   test('Without payload', async () => {
     const newState = await getNewState(`${accessTypes[0]}/${payloadTypes[0]}`);
-    expect(newState.group1.subgroup1.subsubgroup1.value).toBe(4);
+    expect(newState.group1.subgroup.subsubgroup.value).toBe(4);
   });
 
   test('With fixed payload', async () => {
     const newState = await getNewState(`${accessTypes[0]}/${payloadTypes[1]}`);
-    expect(newState.group2.subgroup2.subsubgroup2.value).toBe(22);
+    expect(newState.group2.subgroup.subsubgroup.value).toBe(22);
   });
 
   test('With dynamic payload', async () => {
     const newState = await getNewState(`${accessTypes[0]}/${payloadTypes[2]}`);
-    expect(newState.group3.subgroup3.subsubgroup3.value).toBe(12);
+    expect(newState.group3.subgroup.subsubgroup.value).toBe(12);
   });
 });
 
 describe('Change state by internal action', () => {
   test('Without payload', async () => {
     const newState = await getNewState(`${accessTypes[1]}/${payloadTypes[0]}`);
-    expect(newState.group1.subgroup1.subsubgroup1.value).toBe(4);
+    expect(newState.group1.subgroup.subsubgroup.value).toBe(4);
   });
 
   test('With fixed payload', async () => {
     const newState = await getNewState(`${accessTypes[1]}/${payloadTypes[1]}`);
-    expect(newState.group2.subgroup2.subsubgroup2.value).toBe(22);
+    expect(newState.group2.subgroup.subsubgroup.value).toBe(22);
   });
 
   test('With dynamic payload', async () => {
     const newState = await getNewState(`${accessTypes[1]}/${payloadTypes[2]}`);
-    expect(newState.group3.subgroup3.subsubgroup3.value).toBe(12);
+    expect(newState.group3.subgroup.subsubgroup.value).toBe(12);
   });
 });
