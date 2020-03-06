@@ -6,10 +6,9 @@ export const actionWithFixedPayload =
     group: 'group2',
     payload: 20,
     changer: ({state, payload}) => ({
-      subgroup2: {
-        ...state.subgroup2,
-        subsubgroup2: {
-          value: state.subgroup2.subsubgroup2.value + payload,
+      subgroup: {
+        subsubgroup: {
+          value: state.subgroup.subsubgroup.value + payload,
         },
       },
     }),

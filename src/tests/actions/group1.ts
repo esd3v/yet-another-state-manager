@@ -5,10 +5,9 @@ export const actionWithoutPayload =
   createAction<AppState, 'group1'>({
     group: 'group1',
     changer: ({state}) => ({
-      subgroup1: {
-        ...state.subgroup1,
-        subsubgroup1: {
-          value: state.subgroup1.subsubgroup1.value * state.subgroup1.subsubgroup1.value,
+      subgroup: {
+        subsubgroup: {
+          value: state.subgroup.subsubgroup.value * state.subgroup.subsubgroup.value,
         },
       },
     }),

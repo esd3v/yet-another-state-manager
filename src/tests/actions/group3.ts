@@ -6,10 +6,9 @@ export const actionWithDynamicPayload = (payload: number) =>
     group: 'group3',
     payload,
     changer: ({state, payload}) => ({
-      subgroup3: {
-        ...state.subgroup3,
-        subsubgroup3: {
-          value: state.subgroup3.subsubgroup3.value + payload,
+      subgroup: {
+        subsubgroup: {
+          value: state.subgroup.subsubgroup.value + payload,
         },
       },
     }),
