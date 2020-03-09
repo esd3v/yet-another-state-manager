@@ -1,6 +1,6 @@
-import {defaultState} from './defaultState';
-import {internalActions} from './internalActions';
 import {MappedContextActions} from 'typings';
+import {defaultState} from './defaultState';
+import * as actions from './actions';
 
-export type Actions = MappedContextActions<typeof internalActions>;
+export type Actions = MappedContextActions<typeof actions>;
 export type AppState = typeof defaultState;

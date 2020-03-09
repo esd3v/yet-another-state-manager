@@ -4,9 +4,8 @@ import {Provider} from 'context';
 import {useStore} from 'useStore';
 import {getMergedState} from 'getMergedState';
 
-import * as actions from './actions';
+import * as externalActions from './actions';
 import {defaultState} from './defaultState';
-import {internalActions} from './internalActions';
 import {AppState, Actions} from './typings';
 
 const accessTypes = ['external','internal'] as const;
@@ -26,9 +25,9 @@ const Controller: FunctionComponent = () => {
   }) => (event: React.MouseEvent<HTMLButtonElement>) => {
     if (accessType === 'external') {
       switch(payloadType) {
-        case 'none': dispatch(actions.group1.actionWithoutPayload); break;
-        case 'fixed': dispatch(actions.group2.actionWithFixedPayload); break;
-        case 'dynamic': dispatch(actions.group3.actionWithDynamicPayload(10)); break;
+        case 'none': dispatch(externalActions.group1.actionWithoutPayload); break;
+        case 'fixed': dispatch(externalActions.group2.actionWithFixedPayload); break;
+        case 'dynamic': dispatch(externalActions.group3.actionWithDynamicPayload(10)); break;
       }
     } else if (accessType === 'internal' && internalActions) {
       switch(payloadType) {
@@ -54,7 +53,7 @@ const Controller: FunctionComponent = () => {
 const App: FunctionComponent = () => (
   <Provider
     defaultState={defaultState}
-    actions={internalActions}
+    actions={externalActions}
   >
     <Controller/>
   </Provider>
