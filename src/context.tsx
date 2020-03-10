@@ -1,4 +1,4 @@
-import React, {createContext, useState, Context} from 'react';
+import React from 'react';
 import {getMergedState} from './getMergedState';
 import {mapObject} from './misc';
 import {
@@ -8,7 +8,7 @@ import {
   ActionWithPayload,
   ContextActions,
   ActionWithDynamicPayload,
-} from 'typings';
+} from './typings';
 
 interface ContextValue {
   state: State;
@@ -16,7 +16,8 @@ interface ContextValue {
   dispatch: (action: Action | ActionWithPayload) => void;
 }
 
-export const StoreContext: Context<ContextValue> = createContext<ContextValue>(undefined as any);
+export const StoreContext: React.Context<ContextValue> =
+  React.createContext<ContextValue>(undefined as any);
 
 export function Provider<S extends State, A extends ContextActions>
 ({defaultState, actions, children}: {
@@ -24,7 +25,7 @@ export function Provider<S extends State, A extends ContextActions>
   actions?: A,
   children: React.ReactNode;
 }) {
-  const [state, setState] = useState(defaultState);
+  const [state, setState] = React.useState(defaultState);
 
   const dispatch = (action: Action | ActionWithPayload) => {
     const {payload, group, changer} = action as ActionWithPayload;
