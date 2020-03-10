@@ -1,4 +1,4 @@
-import {ChangerWithPayload, ActionWithPayload, Action, Changer} from 'typings';
+import {ChangerWithPayload, ActionWithPayload, Action, Changer} from './typings';
 
 export function createAction<S, G extends keyof S, P>({group, payload, changer}: {
   group: G;
