@@ -19,7 +19,12 @@ const Controller: FunctionComponent = () => {
     setNewState(state);
   }, [state]);
 
-  const handleClick = ({accessType, payloadType}: {
+  const handleSeqClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    internalActions.group1.actionWithoutPayload();
+    internalActions.group2.actionWithFixedPayload();
+  };
+
+  const handleActionClick = ({accessType, payloadType}: {
     accessType: typeof accessTypes[number];
     payloadType: typeof payloadTypes[number];
   }) => (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -41,9 +46,10 @@ const Controller: FunctionComponent = () => {
   return (
     <>
       {newState && <div data-testid="newState" data-newstate={JSON.stringify(newState)}></div>}
+      <button onClick={handleSeqClick}>Check sequence</button>
       {accessTypes.map((accessType =>
         payloadTypes.map(payloadType =>
-          <button onClick={handleClick({accessType, payloadType})} key={payloadType}>
+          <button onClick={handleActionClick({accessType, payloadType})} key={payloadType}>
             {`${accessType}/${payloadType}`}
           </button>)))}
     </>
@@ -90,6 +96,12 @@ describe('Misc', () => {
     });
 
     expect(mergedState).toEqual(defaultState);
+  });
+
+  test('Change state in sequence', async () => {
+    const newState = await getNewState(`Check sequence`);
+    expect(newState.group1.subgroup.subsubgroup.value).toBe(4);
+    expect(newState.group2.subgroup.subsubgroup.value).toBe(22);
   });
 });
 
