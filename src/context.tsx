@@ -19,23 +19,22 @@ interface ContextValue {
 export const StoreContext: React.Context<ContextValue> =
   React.createContext<ContextValue>(undefined as any);
 
+const reducer = (state: State, action: Action | ActionWithPayload) => {
+  const {payload, group, changer} = action as ActionWithPayload;
+    const stateChanges = changer({
+      state: state[group],
+      payload,
+    });
+    return getMergedState({state, group, stateChanges});
+}
+
 export function Provider<S extends State, A extends ContextActions>
 ({defaultState, actions, children}: {
   defaultState: S;
   actions?: A,
   children: React.ReactNode;
 }) {
-  const [state, setState] = React.useState(defaultState);
-
-  const dispatch = (action: Action | ActionWithPayload) => {
-    const {payload, group, changer} = action as ActionWithPayload;
-    const stateChanges = changer({
-      state: state[group],
-      payload,
-    });
-    const mergedState = getMergedState({state, group, stateChanges});
-    setState(mergedState);
-  };
+  const [state, dispatch] = React.useReducer(reducer, defaultState);
 
   const mapActions = <T extends ContextActions>
     (actions: T): MappedContextActions<T> => {
