@@ -1,6 +1,6 @@
 {
   "name": "yet-another-state-manager",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A small store solution utilizing the capabilities of Context and Hooks API",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
